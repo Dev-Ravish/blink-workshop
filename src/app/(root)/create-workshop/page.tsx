@@ -55,7 +55,7 @@ const WorkshopForm: React.FC = () => {
     const getMinTime = () => {
         const now = new Date();
         return now.toTimeString().slice(0, 5);
-    };
+    }; 
 
     const handleNext = () => {
         if (step < 4) setStep(step + 1);
