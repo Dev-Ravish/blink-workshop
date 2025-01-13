@@ -11,9 +11,9 @@ const transporter = nodemailer.createTransport({
         user: process.env.EMAIL,
         pass: process.env.PASSWORD,
     },
-});
+    });
 
-export async function POST(req: Request) {
+    export async function POST(req: Request) {
     try {
         const formData = await req.formData();
 
@@ -25,10 +25,15 @@ export async function POST(req: Request) {
         const date = formData.get("date")?.toString() || "";
         const time = formData.get("time")?.toString() || "";
         const location = formData.get("location")?.toString() || "";
-        const joinFees = Number(formData.get("joinFees") || 0);
+        const joinFees = formData.get("joinFees")?.toString() || "0"; // Get as string
         const workshopId = crypto.randomUUID();
         const blinkLink = `${process.env.FRONTEND_URL}/api/actions/join/${workshopId}`;
-        const joinLink = `${process.env.FRONTEND_URL}/admin/${workshopId}`;
+
+        // Validate joinFees
+        const joinFeesNumber = parseFloat(joinFees);
+        if (isNaN(joinFeesNumber)) {
+        throw new Error("Invalid joinFees value. Please provide a valid decimal number.");
+        }
 
         const image = formData.get("image") as File;
         let imageUrl = "";
@@ -48,7 +53,7 @@ export async function POST(req: Request) {
             date,
             time,
             location,
-            joinFees,
+            joinFees: joinFeesNumber, // Save as number
         },
         });
 
@@ -85,7 +90,7 @@ export async function POST(req: Request) {
         return new Response(
         JSON.stringify({
             success: false,
-            message: error || "Something went wrong",
+            message: error instanceof Error ? error.message : "Something went wrong",
         }),
         {
             status: 500,

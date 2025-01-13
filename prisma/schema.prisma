@@ -21,7 +21,7 @@ model Workshop {
     date             String
     time             String
     location         String
-    joinFees         Int
+    joinFees         Float
     createdAt        DateTime @default(now())
     updatedAt        DateTime @updatedAt
 

@@ -1,71 +1,54 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 export default function LoadingScreen() {
-  const [text, setText] = useState('Initializing Blink Project')
-  const [progress, setProgress] = useState(0)
-  const [loadingMessages, setLoadingMessages] = useState<string[]>([])
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const textInterval = setInterval(() => {
-      setText(prevText => prevText.length < 25 ? prevText + '.' : 'Initializing Blink Project')
-    }, 500)
-
     const progressInterval = setInterval(() => {
-      setProgress(prevProgress => {
+      setProgress((prevProgress) => {
         if (prevProgress < 100) {
-          return prevProgress + 1
+          return prevProgress + 1;
         } else {
-          clearInterval(progressInterval)
-          return 100
+          clearInterval(progressInterval);
+          return 100;
         }
-      })
-    }, 50) // Adjust the speed of the progress bar
+      });
+    }, 30); // Adjust the speed of the progress bar
 
-    const messageInterval = setInterval(() => {
-      setLoadingMessages(prevMessages => {
-        const newMessage = getRandomLoadingMessage()
-        return [...prevMessages, newMessage].slice(-5) // Keep only the last 5 messages
-      })
-    }, 600)
-
-    return () => {
-      clearInterval(textInterval)
-      clearInterval(progressInterval)
-      clearInterval(messageInterval)
-    }
-  }, [])
-
-  const getRandomLoadingMessage = () => {
-    const messages = [
-      'Setting up workspace...',
-      'Configuring application environment...',
-      'Loading core modules...',
-      'Compiling project assets...',
-      'Establishing database connections...',
-      'Optimizing performance...',
-      'Initializing user interface...',
-      'Deploying backend services...',
-      'Securing application endpoints...',
-      'Finalizing project setup...'
-    ]
-    return messages[Math.floor(Math.random() * messages.length)]
-  }
+    return () => clearInterval(progressInterval);
+  }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#1E3A8A] to-[#1E40AF]">
-      <div className="text-[#2563EB] font-serif bg-[#1E293B] p-8 rounded-2xl shadow-2xl">
-        <motion.div
-          className="text-4xl mb-8 font-bold"
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          {text}
-        </motion.div>
-        <div className="w-64 h-2 bg-gray-800 rounded-full overflow-hidden mb-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#1E3A8A] to-[#1E40AF] relative overflow-hidden">
+      {/* Subtle animated dots */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        {Array.from({ length: 50 }).map((_, index) => (
+          <motion.div
+            key={index}
+            className="w-2 h-2 bg-white/20 rounded-full absolute"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: Math.random() * 2 + 1,
+              repeat: Infinity,
+              repeatType: 'reverse',
+              delay: Math.random() * 2,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Progress Bar Container */}
+      <div className="relative z-10 bg-white/10 backdrop-blur-lg rounded-lg p-8 w-full max-w-md">
+        {/* Progress Bar */}
+        <div className="w-full h-2 bg-white/20 rounded-full overflow-hidden mb-4">
           <motion.div
             className="h-full bg-[#2563EB]"
             initial={{ width: 0 }}
@@ -73,20 +56,12 @@ export default function LoadingScreen() {
             transition={{ duration: 0.5 }}
           />
         </div>
-        <div className="mb-8 text-xl">{progress}%</div>
-        <div className="text-sm space-y-2">
-          {loadingMessages.map((message, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              {message}
-            </motion.div>
-          ))}
+
+        {/* Progress Percentage */}
+        <div className="text-white text-center font-mono">
+          Loading... {progress}%
         </div>
       </div>
     </div>
-  )
+  );
 }
