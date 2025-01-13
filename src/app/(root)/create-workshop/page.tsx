@@ -339,7 +339,7 @@ const WorkshopForm: React.FC = () => {
                     </label>
                     <input
                     type="text"
-                    value={`https://blinkworkshop.tech/join/${workshopId}`}
+                    value={`https://dial.to/?action=solana-action%3Ahttps%3A%2F%2Fblinkworkshop.tech%2Fapi%2Factions%2Fjoin%2F${workshopId}&cluster=devnet`}
                     readOnly
                     className="w-full px-4 py-3 bg-white/10 text-white rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:outline-none"
                     />
