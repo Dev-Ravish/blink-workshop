@@ -120,7 +120,7 @@ const WorkshopForm: React.FC = () => {
             const workshopId = data.data.workshopId;
             setWorkshopId(workshopId);
             setWorkshopUrl(
-            `https://blinkworkshop.xyz/api/actions/join/workshops/${workshopId}`
+            `https://blinkworkshop.tech/api/actions/join/workshops/${workshopId}`
             );
 
             setFormData({
@@ -148,7 +148,7 @@ const WorkshopForm: React.FC = () => {
     };
 
     const copyToClipboard = () => {
-        const urlToCopy = `https://blinkworkshop.xyz/join/${workshopId}`;
+        const urlToCopy = `https://blinkworkshop.tech/join/${workshopId}`;
         navigator.clipboard
         .writeText(urlToCopy)
         .then(() => {
@@ -160,7 +160,7 @@ const WorkshopForm: React.FC = () => {
     };
 
     const shareOnTwitter = () => {
-        const urlToShare = `https://blinkworkshop.xyz/join/${workshopId}`;
+        const urlToShare = `https://blinkworkshop.tech/join/${workshopId}`;
         const textToShare = `Check out this workshop!`;
         const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
         textToShare
@@ -339,7 +339,7 @@ const WorkshopForm: React.FC = () => {
                     </label>
                     <input
                     type="text"
-                    value={`https://blinkworkshop.xyz/join/${workshopId}`}
+                    value={`https://blinkworkshop.tech/join/${workshopId}`}
                     readOnly
                     className="w-full px-4 py-3 bg-white/10 text-white rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:outline-none"
                     />
