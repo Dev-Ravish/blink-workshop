@@ -55,7 +55,7 @@ const WorkshopForm: React.FC = () => {
     const getMinTime = () => {
         const now = new Date();
         return now.toTimeString().slice(0, 5);
-    }; 
+    };
 
     const handleNext = () => {
         if (step < 4) setStep(step + 1);
@@ -66,9 +66,7 @@ const WorkshopForm: React.FC = () => {
     };
 
     const handleInputChange = (
-        e: React.ChangeEvent<
-        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-        >
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
         const { name, value } = e.target;
         setFormData({
@@ -100,54 +98,53 @@ const WorkshopForm: React.FC = () => {
 
         const formDataToSend = new FormData();
         for (const key in formData) {
-            if (key === "image" && formData[key]) {
-                formDataToSend.append("image", formData[key]);
-            } else {
-                formDataToSend.append(
-                key,
-                formData[key as keyof WorkshopFormData] as string | Blob
-                );
-            
-            }
+        if (key === "image" && formData[key]) {
+            formDataToSend.append("image", formData[key]);
+        } else {
+            formDataToSend.append(
+            key,
+            formData[key as keyof WorkshopFormData] as string | Blob
+            );
+        }
+        }
 
-            try {
-            const response = await fetch("/api/save-workshop", {
-                method: "POST",
-                body: formDataToSend,
+        try {
+        const response = await fetch("/api/save-workshop", {
+            method: "POST",
+            body: formDataToSend,
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            setImageUrl(data.url);
+            const workshopId = data.data.workshopId;
+            setWorkshopId(workshopId);
+            setWorkshopUrl(
+            `https://blinkworkshop.xyz/api/actions/join/workshops/${workshopId}`
+            );
+
+            setFormData({
+            organizationName: "",
+            email: "",
+            image: null,
+            description: "",
+            totalSlot: 1,
+            publicKey: "",
+            date: "",
+            time: "",
+            location: "",
+            joinFees: 0,
             });
 
-            if (response.ok) {
-                const data = await response.json();
-                setImageUrl(data.url);
-                const workshopId = data.data.workshopId;
-                setWorkshopId(workshopId);
-                setWorkshopUrl(
-                `https://blinkworkshop.xyz/api/actions/join/workshops/${workshopId}`
-                );
-
-                setFormData({
-                organizationName: "",
-                email: "",
-                image: null,
-                description: "",
-                totalSlot: 1,
-                publicKey: "",
-                date: "",
-                time: "",
-                location: "",
-                joinFees: 0,
-                });
-
-                handleNext();
-            } else {
-                console.error("Error creating workshop:", response.statusText);
-            }
-            } catch (err) {
-            console.error("Failed to submit form:", err);
-            } finally {
-            setSubmitting(false);
-            }
-        };
+            handleNext();
+        } else {
+            console.error("Error creating workshop:", response.statusText);
+        }
+        } catch (err) {
+        console.error("Failed to submit form:", err);
+        } finally {
+        setSubmitting(false);
+        }
     };
 
     const copyToClipboard = () => {
@@ -262,7 +259,6 @@ const WorkshopForm: React.FC = () => {
 
             {step === 2 && (
                 <div className="grid grid-cols-1 gap-6">
-
                 <div>
                     <label className="block text-sm font-medium text-[#CBD5E1] mb-2">
                     Date
@@ -286,9 +282,7 @@ const WorkshopForm: React.FC = () => {
                     name="time"
                     value={formData.time}
                     onChange={handleInputChange}
-                    min={
-                        formData.date === getMinDate() ? getMinTime() : undefined
-                    }
+                    min={formData.date === getMinDate() ? getMinTime() : undefined}
                     className="w-full px-4 py-3 bg-white/10 text-white rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:outline-none"
                     required
                     />
@@ -337,7 +331,6 @@ const WorkshopForm: React.FC = () => {
                 </div>
             )}
 
-
             {step === 3 && (
                 <div className="grid grid-cols-1 gap-6">
                 <div>
@@ -371,19 +364,20 @@ const WorkshopForm: React.FC = () => {
             )}
 
             <div className="flex justify-between mt-8">
-                {step > 1 && (
+            {step > 1 && (
                 <button
-                    type="button"
-                    onClick={handlePrev}
-                    className="bg-[#1E40AF] text-white py-2 px-4 rounded-lg hover:bg-[#1E3A8A] transition-colors"
+                type="button"
+                onClick={handlePrev}
+                className="bg-[#1E40AF] text-white py-2 px-4 rounded-lg hover:bg-[#1E3A8A] transition-colors"
                 >
-                    Prev
+                Prev
                 </button>
-                )}
-                {step < 3 && (
+            )}
+            {step < 3 && (
                 <button
-                    type="submit"
-                    className="bg-[#2563EB] text-white py-2 px-4 rounded-lg hover:bg-[#1E40AF] transition-colors flex items-center justify-center"
+                type="submit"
+                disabled={submitting}
+                className="bg-[#2563EB] text-white py-2 px-4 rounded-lg hover:bg-[#1E40AF] transition-colors flex items-center justify-center"
                 >
                     {submitting ? <Loader className="animate-spin" /> : "Next"}
                 </button>
@@ -393,7 +387,6 @@ const WorkshopForm: React.FC = () => {
         </div>
         </div>
     );
-    };
+};
 
-
-    export default WorkshopForm;
+export default WorkshopForm;
