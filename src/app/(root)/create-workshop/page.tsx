@@ -58,7 +58,7 @@ const WorkshopForm: React.FC = () => {
     };
 
     const handleNext = () => {
-        if (step < 4) setStep(step + 1);
+        if (step < 3) setStep(step + 1);
     };
 
     const handlePrev = () => {
@@ -148,7 +148,7 @@ const WorkshopForm: React.FC = () => {
     };
 
     const copyToClipboard = () => {
-        const urlToCopy = `https://blinkworkshop.tech/join/${workshopId}`;
+        const urlToCopy = `https://blinkworkshop.tech/join-workshop/${workshopId}`;
         navigator.clipboard
         .writeText(urlToCopy)
         .then(() => {
@@ -160,7 +160,7 @@ const WorkshopForm: React.FC = () => {
     };
 
     const shareOnTwitter = () => {
-        const urlToShare = `https://blinkworkshop.tech/join/${workshopId}`;
+        const urlToShare = `https://blinkworkshop.tech/join-workshop/${workshopId}`;
         const textToShare = `Check out this workshop!`;
         const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
         textToShare
@@ -339,7 +339,7 @@ const WorkshopForm: React.FC = () => {
                     </label>
                     <input
                     type="text"
-                    value={`https://dial.to/?action=solana-action%3Ahttps%3A%2F%2Fblinkworkshop.tech%2Fapi%2Factions%2Fjoin%2F${workshopId}&cluster=devnet`}
+                    value={`https://blinkworkshop.tech/join-workshop/${workshopId}`}
                     readOnly
                     className="w-full px-4 py-3 bg-white/10 text-white rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:outline-none"
                     />

@@ -56,14 +56,14 @@ export async function POST(req: Request) {
         from: process.env.EMAIL,
         to: email,
         subject: "Workshop Created Successfully",
-        text: `Dear ${organizationName},\n\nYou have successfully created a workshop with ID: ${workshopId}.\n\nHere is your blink link: ${blinkLink}\n\nPlease visit the below link 1 hour before the game starts to provide the room ID, password, or any other method for participants to join: ${joinLink}.\nWe will then send the necessary information to the registered users.\n\nIf you want to delete the workshop, go to: https://www.blinkarena.xyz/delete\n\nBest regards,\nTeam Blink Workshop`,
+        text: `Dear ${organizationName},\n\nYou have successfully created a workshop with ID: ${workshopId}.\n\nHere is your blink link: ${blinkLink}\n\nBest regards,\nTeam Blink Workshop`,
         html: `
             <p>Dear ${organizationName},</p>
             <p>You have successfully created a workshop with ID: <strong>${workshopId}</strong>.</p>
             <p>Here is your blink link: <a href="${blinkLink}">${blinkLink}</a></p>
-            <p>Please visit the below link 1 hour before the game starts to provide the room ID, password, or any other method for participants to join: <a href="${joinLink}">${joinLink}</a>.</p>
+            
             <p>We will then send the necessary information to the registered users.</p>
-            <p>If you want to delete the workshop, go to: <a href="https://www.blinkarena.xyz/delete">this link</a>.</p>
+            
             <p>Best regards,<br>Team Blink Workshop</p>
         `,
         });
